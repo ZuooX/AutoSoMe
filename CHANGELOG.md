@@ -1,7 +1,6 @@
 # CHANGELOG — 需求偏差记录
 
 > 仅记录实现与需求稿的偏差，不是 git commit log。
-> 需求稿位于 PM Agent 工作区 `GenerateUI/projects/auto-so-me/sprints/`。
 
 ---
 
