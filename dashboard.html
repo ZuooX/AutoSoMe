@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoSoMe — 项目大盘 &amp; 操作手册</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root {
+  --bg: #0f1117;
+  --bg-card: #1a1d27;
+  --bg-card-hover: #222633;
+  --bg-code: #13151d;
+  --border: #2a2e3a;
+  --text: #e4e6ed;
+  --text-muted: #8b8fa3;
+  --accent: #6c8cff;
+  --accent-dim: rgba(108,140,255,0.12);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,0.12);
+  --yellow: #fbbf24;
+  --yellow-dim: rgba(251,191,36,0.12);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.12);
+  --orange: #fb923c;
+  --orange-dim: rgba(251,146,60,0.12);
+  --cyan: #22d3ee;
+  --cyan-dim: rgba(34,211,238,0.12);
+  --pink: #f472b6;
+  --pink-dim: rgba(244,114,182,0.12);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.12);
+  --radius: 12px;
+  --nav-w: 230px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 15px; }
+body {
+  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Noto Sans SC", "Helvetica Neue", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+
+/* ---- Side Nav ---- */
+nav {
+  position: fixed; top: 0; left: 0;
+  width: var(--nav-w); height: 100vh;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  padding: 28px 0 20px;
+  overflow-y: auto; z-index: 100;
+  display: flex; flex-direction: column;
+}
+nav .logo { padding: 0 20px 22px; font-size: 1.15rem; font-weight: 700; letter-spacing: .5px; color: var(--accent); }
+nav .nav-section {
+  padding: 10px 20px 4px; font-size: .7rem; font-weight: 600;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+}
+nav a {
+  display: block; padding: 8px 20px; font-size: .85rem;
+  color: var(--text-muted); text-decoration: none; transition: .15s;
+}
+nav a:hover, nav a.active { color: var(--text); background: var(--accent-dim); }
+nav .spacer { flex: 1; }
+nav .version { padding: 12px 20px; font-size: .75rem; color: var(--text-muted); border-top: 1px solid var(--border); }
+
+/* ---- Main ---- */
+main { margin-left: var(--nav-w); padding: 40px 48px 80px; max-width: 1100px; }
+
+section { margin-bottom: 64px; }
+section:target { scroll-margin-top: 20px; }
+
+h2 {
+  font-size: 1.5rem; font-weight: 700; margin-bottom: 24px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+h3 { font-size: 1.1rem; font-weight: 600; margin: 20px 0 12px; color: var(--text); }
+
+p, .desc-text { margin-bottom: 12px; color: var(--text-muted); }
+
+/* ---- Hero ---- */
+.hero { text-align: center; padding: 56px 0 32px; }
+.hero h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 12px; }
+.hero h1 span { color: var(--accent); }
+.hero .tagline { font-size: 1.05rem; color: var(--text-muted); max-width: 720px; margin: 0 auto 28px; line-height: 1.7; }
+.hero-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 20px; font-size: .8rem; font-weight: 500;
+}
+.badge-green  { background: var(--green-dim); color: var(--green); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); }
+.badge-accent { background: var(--accent-dim); color: var(--accent); }
+.badge-pink   { background: var(--pink-dim); color: var(--pink); }
+.badge-teal   { background: var(--teal-dim); color: var(--teal); }
+.badge-orange { background: var(--orange-dim); color: var(--orange); }
+
+/* ---- Arch Cards ---- */
+.arch-grid { display: grid; grid-template-columns: 1fr 44px 1fr 44px 1fr; align-items: center; gap: 0; margin-top: 20px; }
+.arch-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 22px; text-align: center;
+}
+.arch-card h3 { margin: 0 0 8px; font-size: 1rem; }
+.arch-card p { margin: 0; font-size: .82rem; }
+.arch-arrow { text-align: center; font-size: 1.5rem; color: var(--accent); }
+
+/* ---- Mode Cards ---- */
+.mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+.mode-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 24px; transition: .2s; position: relative; overflow: hidden;
+}
+.mode-card:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+.mode-card .mode-label {
+  display: inline-block; padding: 3px 12px; border-radius: 10px; font-size: .72rem;
+  font-weight: 600; margin-bottom: 12px;
+}
+.mode-card h3 { margin: 0 0 8px; font-size: 1.1rem; }
+.mode-card .mode-desc { font-size: .85rem; color: var(--text-muted); margin-bottom: 12px; }
+.mode-card .mode-flow { font-size: .8rem; color: var(--accent); font-weight: 500; }
+
+/* ---- Feature Grid ---- */
+.feat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.feat-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px 22px; transition: .2s;
+}
+.feat-card:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+.feat-card .head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.feat-card .num {
+  font-size: .75rem; font-weight: 700; width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; flex-shrink: 0;
+}
+.feat-card .title { font-weight: 600; font-size: 1rem; }
+.feat-card .desc { font-size: .85rem; color: var(--text-muted); margin-bottom: 10px; }
+.feat-card .foot { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag {
+  font-size: .72rem; padding: 3px 10px; border-radius: 12px; font-weight: 500;
+}
+.tag-skill    { background: var(--purple-dim); color: var(--purple); }
+.tag-cli      { background: var(--cyan-dim);   color: var(--cyan); }
+.tag-mcp      { background: var(--teal-dim);   color: var(--teal); }
+.tag-done     { background: var(--green-dim);  color: var(--green); }
+.tag-gtm      { background: var(--orange-dim); color: var(--orange); }
+.tag-personal { background: var(--pink-dim);   color: var(--pink); }
+.tag-shared   { background: var(--accent-dim); color: var(--accent); }
+
+/* ---- Publish Methods ---- */
+.publish-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 24px; }
+.publish-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px 20px; transition: .2s;
+}
+.publish-card:hover { border-color: var(--accent); }
+.publish-card .p-rank {
+  font-size: .7rem; font-weight: 700; padding: 3px 10px; border-radius: 10px;
+  margin-bottom: 10px; display: inline-block;
+}
+.publish-card h4 { font-size: .95rem; font-weight: 600; margin-bottom: 6px; }
+.publish-card p { font-size: .82rem; color: var(--text-muted); margin: 0; }
+
+/* ---- Workflow ---- */
+.mermaid-wrap {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 32px; overflow-x: auto; margin-bottom: 20px;
+}
+
+/* ---- CLI Cards ---- */
+.cli-group { margin-bottom: 28px; }
+.cli-group h3 { display: flex; align-items: center; gap: 8px; }
+.cli-group h3 .icon { font-size: 1.1rem; }
+.cli-notice {
+  background: var(--teal-dim); border: 1px solid var(--teal); border-radius: 8px;
+  padding: 10px 16px; font-size: .84rem; color: var(--teal); margin-bottom: 14px;
+}
+.cli-notice a { color: var(--teal); }
+.cli-legacy {
+  background: var(--yellow-dim); border: 1px solid var(--yellow); border-radius: 8px;
+  padding: 10px 16px; font-size: .84rem; color: var(--yellow); margin-bottom: 14px;
+}
+.cmd-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px 20px; margin-bottom: 10px; position: relative;
+}
+.cmd-card .label { font-size: .78rem; color: var(--text-muted); margin-bottom: 6px; }
+.cmd-card pre {
+  background: var(--bg-code); border-radius: 8px; padding: 12px 14px;
+  overflow-x: auto; font-size: .82rem; line-height: 1.6;
+  font-family: "SF Mono", "Fira Code", "Menlo", monospace; color: var(--green);
+}
+.cmd-card .copy-btn {
+  position: absolute; top: 12px; right: 14px;
+  background: var(--border); border: none; color: var(--text-muted);
+  padding: 4px 10px; border-radius: 6px; font-size: .72rem; cursor: pointer; transition: .15s;
+}
+.cmd-card .copy-btn:hover { background: var(--accent); color: #fff; }
+
+/* ---- Angle / Scene Table ---- */
+.angle-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin-bottom: 28px; }
+.angle-table th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: .8rem;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px;
+  border-bottom: 1px solid var(--border);
+}
+.angle-table td {
+  padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.angle-table tr:hover td { background: var(--bg-card-hover); }
+.angle-id {
+  display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: .76rem; font-weight: 600;
+}
+
+/* ---- Tree ---- */
+.tree-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.tree-box {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px 24px; overflow-x: auto;
+}
+.tree-box h3 { margin-top: 0; }
+.tree-box pre {
+  font-family: "SF Mono", "Fira Code", "Menlo", monospace;
+  font-size: .82rem; line-height: 1.65; color: var(--text-muted);
+}
+.tree-box pre .hl { color: var(--accent); font-weight: 600; }
+.tree-box pre .cm { color: #555e70; }
+.tree-box pre .hl-new { color: var(--teal); font-weight: 600; }
+
+/* ---- Platform ---- */
+.plat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.plat-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; text-align: center;
+}
+.plat-card .emoji { font-size: 2rem; margin-bottom: 8px; }
+.plat-card .name { font-weight: 600; margin-bottom: 6px; }
+.plat-card .status { font-size: .8rem; }
+.plat-card .methods { margin-top: 8px; font-size: .75rem; color: var(--text-muted); line-height: 1.7; }
+
+/* ---- Quick Cmds ---- */
+.quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.quick-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 18px; display: flex; align-items: flex-start; gap: 10px;
+}
+.quick-card .q-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+.quick-card .q-text { font-size: .88rem; color: var(--text-muted); }
+.quick-card .q-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 960px) {
+  nav { display: none; }
+  main { margin-left: 0; padding: 24px 20px 60px; }
+  .arch-grid { grid-template-columns: 1fr; gap: 12px; }
+  .arch-arrow { transform: rotate(90deg); font-size: 1.2rem; }
+  .tree-grid, .quick-grid, .mode-grid, .publish-grid { grid-template-columns: 1fr; }
+  .plat-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== Side Nav ===================== -->
+<nav>
+  <div class="logo">AutoSoMe</div>
+  <div class="nav-section">概览</div>
+  <a href="#overview">项目概览</a>
+  <a href="#modes">双模式</a>
+  <a href="#features">功能大盘</a>
+  <div class="nav-section">流程</div>
+  <a href="#workflow-gtm">product-gtm 流程</a>
+  <a href="#workflow-personal">personal-log 流程</a>
+  <div class="nav-section">使用</div>
+  <a href="#publish-methods">发布方式</a>
+  <a href="#quick-start">快速指令</a>
+  <a href="#cli">CLI 操作手册</a>
+  <div class="nav-section">参考</div>
+  <a href="#angles">角度 / 子场景</a>
+  <a href="#structure">项目结构</a>
+  <a href="#platforms">平台支持</a>
+  <div class="spacer"></div>
+  <div class="version">v0.3.0 &middot; 2026-03-24</div>
+</nav>
+
+<main>
+
+<!-- ===================== Hero ===================== -->
+<section id="overview">
+  <div class="hero">
+    <h1>Auto<span>So</span>Me</h1>
+    <p class="tagline">产品 GTM &amp; 个人 IP 营销 Agent &mdash; 两种模式：<strong>产品推广</strong>读取项目文件生成多平台推广文案；<strong>个人日志</strong>读取日记生成真实感个人 IP 内容。双平台发布：小红书 + 微信公众号。</p>
+    <div class="hero-badges">
+      <span class="badge badge-green">v0.3.0</span>
+      <span class="badge badge-purple">Cursor Skill</span>
+      <span class="badge badge-accent">Python CLI</span>
+      <span class="badge badge-teal">Chrome DevTools MCP</span>
+      <span class="badge badge-pink">双模式</span>
+      <span class="badge badge-orange">双平台</span>
+    </div>
+  </div>
+
+  <div class="arch-grid">
+    <div class="arch-card">
+      <h3 style="color:var(--purple)">Cursor Skill</h3>
+      <p>产品/日志理解 &middot; 内容策略 &middot; 文案生成 &middot; 封面图 &middot; 脱敏审查</p>
+      <p style="margin-top:8px;font-size:.76rem;color:var(--purple)">SKILL.md + 10 个 Prompt 文件</p>
+    </div>
+    <div class="arch-arrow">&rarr;</div>
+    <div class="arch-card">
+      <h3 style="color:var(--teal)">Chrome DevTools MCP</h3>
+      <p>操控真实 Chrome 浏览器 &middot; 自动填写表单 &middot; 截图确认 &middot; 点击发布</p>
+      <p style="margin-top:8px;font-size:.76rem;color:var(--teal)">Google 官方开源 &middot; .cursor/mcp.json</p>
+    </div>
+    <div class="arch-arrow">&rarr;</div>
+    <div class="arch-card">
+      <h3 style="color:var(--cyan)">Python CLI</h3>
+      <p>内容准备（prepare）&middot; 历史追踪 &middot; Playwright legacy</p>
+      <p style="margin-top:8px;font-size:.76rem;color:var(--cyan)">autosome/ Python 包</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Modes ===================== -->
+<section id="modes">
+  <h2>双模式</h2>
+  <div class="mode-grid">
+    <div class="mode-card">
+      <span class="mode-label" style="background:var(--orange-dim);color:var(--orange)">product-gtm</span>
+      <h3>产品推广</h3>
+      <p class="mode-desc">扫描产品项目文件（README、文档、代码），自动理解产品定位与卖点，生成多角度推广文案，支持小红书与微信公众号双平台输出。</p>
+      <div class="mode-flow">F1 产品理解 &rarr; F2 策略 &rarr; F3 文案(XHS/MP) &rarr; F4 封面 &rarr; F5 发布 &rarr; F6 追踪</div>
+    </div>
+    <div class="mode-card">
+      <span class="mode-label" style="background:var(--pink-dim);color:var(--pink)">personal-log</span>
+      <h3>个人日志 / 个人 IP</h3>
+      <p class="mode-desc">读取 Obsidian 等个人日志，提炼人设特质与内容方向，生成有「真实经历质感」的个人 IP 内容。内置脱敏闸门保护隐私，支持双平台发布。</p>
+      <div class="mode-flow">F1 日志理解 &rarr; F2 选题 &rarr; F3 文案(XHS/MP) &rarr; F4 封面 &rarr; F5 脱敏 &rarr; F6 发布 &rarr; F7 追踪</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Feature Dashboard ===================== -->
+<section id="features">
+  <h2>功能大盘</h2>
+
+  <h3>product-gtm 产品推广</h3>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--orange-dim);color:var(--orange)">F1</div>
+        <span class="title">产品理解引擎</span>
+      </div>
+      <div class="desc">读取产品项目文件（README、文档、规则等），输出结构化的产品理解报告：定位、功能、受众、卖点。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-gtm">product-gtm</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--yellow-dim);color:var(--yellow)">F2</div>
+        <span class="title">内容策略规划</span>
+      </div>
+      <div class="desc">基于产品理解，从 6 种角度中规划多篇不同切入点的内容大纲，自动去重已用角度。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-gtm">product-gtm</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--green-dim);color:var(--green)">F3</div>
+        <span class="title">小红书文案生成</span>
+      </div>
+      <div class="desc">生成适配小红书调性的完整文案：标题(&le;20字) + 正文(&le;1000字) + 标签(&ge;5个)，支持逐篇微调。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-gtm">product-gtm</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--teal-dim);color:var(--teal)">F3-MP</div>
+        <span class="title">公众号文案生成</span>
+      </div>
+      <div class="desc">生成微信公众号长文格式：标题(&le;32字) + 摘要 + 结构化正文（含小标题）+ 标签。独立 Prompt，无 emoji 堆砌。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-gtm">product-gtm</span><span class="tag tag-done">已完成</span></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px">personal-log 个人日志</h3>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--pink-dim);color:var(--pink)">F1</div>
+        <span class="title">个人日志库理解</span>
+      </div>
+      <div class="desc">读取 Obsidian 等 Markdown 日志，提炼写作习惯、子场景分布、高频主题、叙事风格，生成人物与叙事档案。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-personal">personal-log</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--pink-dim);color:var(--pink)">F2</div>
+        <span class="title">多场景归类与选题</span>
+      </div>
+      <div class="desc">将日志素材归类为 growth / travel / reflection / life 四种子场景，规划选题大纲并自动避免素材重复。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-personal">personal-log</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--pink-dim);color:var(--pink)">F3</div>
+        <span class="title">真实感文案生成（小红书）</span>
+      </div>
+      <div class="desc">第一人称个人叙事，保留情绪与转折，用模糊化事实代替编造。像朋友分享生活而非广告。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-personal">personal-log</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--teal-dim);color:var(--teal)">F3-MP</div>
+        <span class="title">真实感文案生成（公众号）</span>
+      </div>
+      <div class="desc">个人叙事风格的公众号长文：内省式标题 + 结构化成长叙事正文 + 摘要字段，适合深度读者。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-personal">personal-log</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--red-dim);color:var(--red)">F5</div>
+        <span class="title">脱敏与可发布性闸门</span>
+      </div>
+      <div class="desc">逐篇检查隐私风险（真名、公司、地址、财务等 8 项），输出脱敏检查表，用户明确确认后才可发布。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-personal">personal-log</span><span class="tag tag-done">已完成</span></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px">双模式共享</h3>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--purple-dim);color:var(--purple)">F4</div>
+        <span class="title">封面图生成</span>
+      </div>
+      <div class="desc">根据文案角度/子场景生成封面图（3:4 竖版 / 1:1 方形）。product-gtm 有 6 种风格映射，personal-log 有 4 种。</div>
+      <div class="foot"><span class="tag tag-skill">Skill</span><span class="tag tag-shared">双模式共用</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--accent-dim);color:var(--accent)">F5/6</div>
+        <span class="title">多平台发布</span>
+      </div>
+      <div class="desc">三种发布方式：prepare 手动（最安全）、Chrome DevTools MCP 自动化（推荐，操控真实 Chrome）、Playwright legacy。支持小红书 + 公众号双平台。</div>
+      <div class="foot"><span class="tag tag-mcp">MCP</span><span class="tag tag-cli">CLI</span><span class="tag tag-shared">双模式共用</span><span class="tag tag-done">已完成</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="head">
+        <div class="num" style="background:var(--cyan-dim);color:var(--cyan)">F6/7</div>
+        <span class="title">历史内容追踪</span>
+      </div>
+      <div class="desc">product-gtm 追踪角度使用（history.json），personal-log 追踪素材日期与子场景（history-personal.json），自动避免重复。</div>
+      <div class="foot"><span class="tag tag-cli">CLI</span><span class="tag tag-skill">Skill</span><span class="tag tag-shared">双模式共用</span><span class="tag tag-done">已完成</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Publish Methods ===================== -->
+<section id="publish-methods">
+  <h2>发布方式</h2>
+  <p class="desc-text">三种发布方式按推荐程度排列，各有适用场景。</p>
+
+  <div class="publish-grid">
+    <div class="publish-card" style="border-color:var(--green)">
+      <span class="p-rank" style="background:var(--green-dim);color:var(--green)">方式一 · 最安全</span>
+      <h4>prepare + 手动发布</h4>
+      <p>CLI 将内容格式化输出到终端 + 复制到剪贴板，用户在平台 App/网页中手动粘贴发布。零账号风险，适合谨慎场景。</p>
+    </div>
+    <div class="publish-card" style="border-color:var(--teal)">
+      <span class="p-rank" style="background:var(--teal-dim);color:var(--teal)">方式二 · 推荐 · 公众号已固化</span>
+      <h4>CDP 自动化（publish -p mp）</h4>
+      <p>以调试模式启动 Chrome（<code>--remote-debugging-port=9222</code>），CLI 通过 Playwright CDP 连接已登录的真实 Chrome，自动填写标题/正文/摘要/封面图并保存草稿。登录状态持久化，后续无需重复登录。</p>
+    </div>
+    <div class="publish-card" style="border-color:var(--border)">
+      <span class="p-rank" style="background:var(--yellow-dim);color:var(--yellow)">方式三 · legacy</span>
+      <h4>Playwright 自动化（仅 xhs）</h4>
+      <p>独立 Chromium 实例，需单独登录。平台可能检测到自动化操作（navigator.webdriver 等特征）。仍可用，但安全性低于 CDP 方案。</p>
+    </div>
+  </div>
+
+  <h3>CDP 公众号自动发布工作原理（publish -p mp）</h3>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+sequenceDiagram
+    participant U as 用户
+    participant CLI as autosome CLI
+    participant PW as Playwright CDP
+    participant C as 已登录的 Chrome
+
+    U->>CLI: publish -p mp --post &lt;path&gt;
+    CLI->>CLI: check_cdp_available(9222)
+    CLI->>PW: connect_over_cdp(localhost:9222)
+    PW->>C: 连接已登录的 Chrome 实例
+    CLI->>C: 点击「文章」→ 打开编辑器
+    CLI->>C: fill 标题
+    CLI->>C: keyboard.insert_text(正文)
+    CLI->>C: 点击文章设置 → fill 摘要
+    CLI->>C: set_input_files(cover.png)
+    CLI->>C: 点击「保存为草稿」
+    C-->>CLI: 草稿已保存
+    CLI->>U: ✅ 草稿已保存，请在手机预览后群发
+    </pre>
+  </div>
+
+  <h3>小红书 vs 公众号发布差异</h3>
+  <table class="angle-table">
+    <thead>
+      <tr><th>维度</th><th>小红书</th><th>微信公众号</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>登录方式</td>
+        <td>账号密码 / 扫码</td>
+        <td>微信扫码（MCP 方案复用已登录 Chrome）</td>
+      </tr>
+      <tr>
+        <td>内容格式</td>
+        <td>短文（≤1000字）+ 多图 + 标签</td>
+        <td>长文 + 封面图 + 摘要（digest）</td>
+      </tr>
+      <tr>
+        <td>默认发布动作</td>
+        <td>直接发布</td>
+        <td><strong>保存草稿</strong>（用户手机预览后再群发）</td>
+      </tr>
+      <tr>
+        <td>推荐自动化方式</td>
+        <td>Playwright legacy（publish -p xhs）</td>
+        <td><strong>CDP（publish -p mp）</strong> — 代码已固化</td>
+      </tr>
+      <tr>
+        <td>Prompt 文件（Agent 对话发布）</td>
+        <td>browser-publish-xhs.md</td>
+        <td>browser-publish-mp.md</td>
+      </tr>
+      <tr>
+        <td>跨平台搬运</td>
+        <td colspan="2">CLI <code>prepare -p mp --post &lt;xhs目录&gt;</code> 将小红书帖子适配为公众号格式</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== Workflow: product-gtm ===================== -->
+<section id="workflow-gtm">
+  <h2>工作流程：product-gtm</h2>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+flowchart TD
+    A["用户指定产品项目路径"] --> B["Agent 扫描项目文件"]
+    B --> C["F1: 输出产品理解报告"]
+    C --> D{"用户审核"}
+    D -->|"需修正"| C
+    D -->|"确认"| E["F2: 规划内容策略（6 种角度）"]
+    E --> F{"用户确认角度 + 目标平台"}
+    F -->|"调整"| E
+    F -->|"小红书"| G1["F3-XHS: 小红书文案 + F4: 封面图"]
+    F -->|"公众号"| G2["F3-MP: 公众号文案 + F4: 封面图"]
+    F -->|"双平台"| G1 & G2
+    G1 & G2 --> H{"用户逐篇审核"}
+    H -->|"需微调"| G1
+    H -->|"通过"| I{"选择发布方式"}
+    I -->|"prepare 手动"| I1["CLI prepare → 剪贴板 → 手动发布"]
+    I -->|"MCP 自动化"| I2["Agent 通过 Chrome DevTools MCP 发布"]
+    I1 & I2 --> K["F6: 记录历史"]
+    K --> L{"继续运营?"}
+    L -->|"是"| E
+    L -->|"否"| M["结束"]
+    </pre>
+  </div>
+</section>
+
+<!-- ===================== Workflow: personal-log ===================== -->
+<section id="workflow-personal">
+  <h2>工作流程：personal-log</h2>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+flowchart TD
+    A["用户指定素材来源 + 输出目录"] --> B["Agent 读取日志文件"]
+    B --> C["F1: 生成人物与叙事档案"]
+    C --> D{"用户审核人设/边界"}
+    D -->|"修正"| C
+    D -->|"确认"| E["F2: 多场景归类与选题"]
+    E --> F{"用户确认选题 + 目标平台"}
+    F -->|"调整"| E
+    F -->|"小红书"| G1["F3-XHS: 真实感文案 + F4: 封面图"]
+    F -->|"公众号"| G2["F3-MP: 长文文案 + F4: 封面图"]
+    G1 & G2 --> H["F5: 脱敏检查（必经闸门）"]
+    H --> I["输出脱敏检查表"]
+    I --> J{"用户逐项确认"}
+    J -->|"需修改"| G1
+    J -->|"确认可发布"| K{"选择发布方式"}
+    K -->|"prepare 手动"| K1["CLI prepare → 剪贴板 → 手动发布"]
+    K -->|"MCP 自动化"| K2["Agent 通过 Chrome DevTools MCP 发布"]
+    K1 & K2 --> M["F7: 记录个人向历史"]
+    M --> N{"继续创作?"}
+    N -->|"是"| E
+    N -->|"否"| O["结束"]
+    </pre>
+  </div>
+</section>
+
+<!-- ===================== Quick Start ===================== -->
+<section id="quick-start">
+  <h2>快速指令（Cursor 对话）</h2>
+
+  <h3 style="color:var(--orange)">product-gtm 产品推广</h3>
+  <div class="quick-grid">
+    <div class="quick-card">
+      <div class="q-icon">&#128640;</div>
+      <div class="q-text">
+        <strong>「帮我推广这个项目」</strong>
+        F1 &rarr; F2 &rarr; F3 &rarr; F4 全流程
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#9997;&#65039;</div>
+      <div class="q-text">
+        <strong>「生成 3 篇小红书文案」</strong>
+        检查 F1 &rarr; F2 &rarr; F3-XHS &rarr; F4
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128172;</div>
+      <div class="q-text">
+        <strong>「生成 2 篇公众号文案」</strong>
+        检查 F1 &rarr; F2 &rarr; F3-MP &rarr; F4
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128260;</div>
+      <div class="q-text">
+        <strong>「换个角度再来几篇」</strong>
+        F2 &rarr; F3 &rarr; F4（复用 profile）
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128228;</div>
+      <div class="q-text">
+        <strong>「帮我发布第 1 篇到小红书」</strong>
+        Agent 通过 Chrome DevTools MCP 发布
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128172;</div>
+      <div class="q-text">
+        <strong>「发到公众号」</strong>
+        Agent 通过 Chrome DevTools MCP 发布公众号
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128218;</div>
+      <div class="q-text">
+        <strong>「之前生成过哪些内容」</strong>
+        F6 历史查询
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128295;</div>
+      <div class="q-text">
+        <strong>「语气轻松一点」「标题改一下」</strong>
+        F3 局部微调
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px;color:var(--pink)">personal-log 个人日志</h3>
+  <div class="quick-grid">
+    <div class="quick-card">
+      <div class="q-icon">&#128221;</div>
+      <div class="q-text">
+        <strong>「个人日志模式，Obsidian 库在 ~/WorkspaceOB」</strong>
+        切换 personal-log + F1
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128196;</div>
+      <div class="q-text">
+        <strong>「用这篇日志生成小红书：03-个人与成长/xxx.md」</strong>
+        F1 &rarr; F2 &rarr; F3-XHS &rarr; F4 &rarr; F5
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#127912;</div>
+      <div class="q-text">
+        <strong>「从 03-个人与成长/ 选素材，出 2 篇公众号」</strong>
+        F1 &rarr; F2 &rarr; F3-MP &rarr; F4 &rarr; F5
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128274;</div>
+      <div class="q-text">
+        <strong>「脱敏表没问题，帮我发第 1 篇」</strong>
+        F5 通过 &rarr; MCP 自动发布
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128200;</div>
+      <div class="q-text">
+        <strong>「1 篇成长 1 篇游玩」</strong>
+        F2 指定子场景
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="q-icon">&#128683;</div>
+      <div class="q-text">
+        <strong>「别再用上个月那篇素材了」</strong>
+        F7 排除 &rarr; 重新 F2
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CLI Handbook ===================== -->
+<section id="cli">
+  <h2>CLI 操作手册</h2>
+
+  <div class="cli-group">
+    <h3><span class="icon">&#128230;</span> 安装</h3>
+    <div class="cmd-card">
+      <div class="label">安装 Python 依赖（Chrome DevTools MCP 由 Cursor 自动加载，无需额外安装）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>pip install -r requirements.txt</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">部署 Cursor Skill（符号链接）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>ln -sf "$(pwd)" ~/.cursor/skills-cursor/auto-so-me</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">[可选] 安装 Playwright（仅 legacy publish 命令需要）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>playwright install chromium</pre>
+    </div>
+  </div>
+
+  <div class="cli-group">
+    <h3><span class="icon">&#128203;</span> 内容准备（推荐 · 最安全）</h3>
+    <div class="cmd-card">
+      <div class="label">小红书：准备单篇（标题复制到剪贴板 + 终端输出完整内容）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome prepare \
+  --post ".auto-so-me/campaigns/&lt;batch&gt;/xhs-output/&lt;post-name&gt;"</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">小红书：准备单篇 + 复制正文（含标签）到剪贴板</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome prepare \
+  --post "&lt;path&gt;" --copy-body</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">微信公众号：准备单篇（输出标题 + 摘要 + 正文 + 封面图路径）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome prepare -p mp \
+  --post ".auto-so-me/campaigns/&lt;batch&gt;/mp-output/&lt;post-name&gt;" --copy-body</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">跨平台搬运：将小红书帖子适配为公众号格式</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome prepare -p mp \
+  --post ".auto-so-me/campaigns/&lt;batch&gt;/xhs-output/&lt;post-name&gt;" --copy-body</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">批量准备，指定第几篇</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome prepare \
+  --dir "&lt;path&gt;" --index 1</pre>
+    </div>
+  </div>
+
+  <div class="cli-group">
+    <h3><span class="icon">&#128202;</span> 历史管理</h3>
+    <div class="cmd-card">
+      <div class="label">查看产品推广历史（含角度统计）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome history --project . --angles</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">查看个人日志历史（含子场景统计）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome history \
+  --project "&lt;personal_output_root&gt;" --mode personal --angles</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">标记某条记录为已发布</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome mark-published --project . \
+  --id "2026-03-22-batch-1-post-1"</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">个人日志标记已发布</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome mark-published \
+  --project "&lt;personal_output_root&gt;" --mode personal --id "&lt;id&gt;"</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">新增产品推广历史记录（供 Agent 调用）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome add-entry --project . \
+  --product "PM Agent" \
+  --id "2026-03-22-batch-1-post-1" \
+  --batch "2026-03-22-batch-1" \
+  --angle "pain-point" \
+  --title "标题" \
+  --tags "#AI工具,#产品经理" \
+  --file "campaigns/.../content.md"</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">新增个人日志历史记录（供 Agent 调用）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome add-entry \
+  --project "&lt;personal_output_root&gt;" --mode personal \
+  --id "2026-03-22-batch-1-post-1" \
+  --batch "2026-03-22-batch-1" \
+  --sub-scenes "growth" \
+  --source-range "2026-03-15 ~ 2026-03-21" \
+  --title "标题" \
+  --tags "#成长记录,#日常" \
+  --file "campaigns/.../content.md"</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">查看已用/可用角度</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome used-angles --project .</pre>
+    </div>
+  </div>
+
+  <div class="cli-group">
+    <h3><span class="icon">&#127760;</span> CDP 自动发布 — 微信公众号（推荐）</h3>
+
+    <div class="cli-legacy" style="border-color:var(--teal);background:var(--teal-dim);color:var(--text)">
+      <strong>💡 Chrome 使用须知</strong><br>
+      调试 Chrome（<code>--user-data-dir=~/.chrome-debug-profile</code>）是独立的配置，与你日常使用的主 Chrome <strong>完全隔离</strong>，主 Chrome 的登录账号、标签页、历史记录不受任何影响。<br><br>
+      <strong>⚠️ 两者不能同时从 Dock 图标打开</strong>：调试 Chrome 运行时，点 Dock 图标会切换到调试窗口而非主 Chrome。<br>
+      推荐的工作节奏：<br>
+      &nbsp;&nbsp;日常工作 → 主 Chrome（Dock 打开）<br>
+      &nbsp;&nbsp;需要发布 → <code>Cmd+Q</code> 关闭主 Chrome → 运行下方命令启动调试 Chrome → 发布完毕 → <code>Cmd+Q</code> 关闭调试 Chrome → 从 Dock 重新打开主 Chrome
+    </div>
+
+    <div class="cmd-card">
+      <div class="label">推荐：添加 shell 别名，方便每次快速启动（加入 ~/.zshrc）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>echo 'alias chrome-debug="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --user-data-dir=$HOME/.chrome-debug-profile"' >> ~/.zshrc && source ~/.zshrc</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">Step 1：首次启动调试 Chrome（一次性，登录状态持久化）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>chrome-debug
+# 弹出的 Chrome 中登录 https://mp.weixin.qq.com（仅首次需要）</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">Step 2：发布单篇公众号帖子（CDP 自动填写 + 保存草稿）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome publish -p mp \
+  --post "&lt;项目根&gt;/.auto-so-me/campaigns/&lt;batch&gt;/mp-output/&lt;post-name&gt;" \
+  --project "&lt;项目根&gt;"</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">验证 CDP 端口是否就绪</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>curl http://localhost:9222/json/version</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">指定自定义 CDP 端口</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome publish -p mp --post "&lt;path&gt;" --cdp-port 9223</pre>
+    </div>
+  </div>
+
+  <div class="cli-group">
+    <h3><span class="icon">&#128268;</span> Playwright legacy（备选 · 仅小红书）</h3>
+    <div class="cli-legacy">
+      ⚠️ 以下命令使用独立 Chromium 实例，平台可能检测到自动化操作。公众号请使用上方 CDP 方案。
+    </div>
+    <div class="cmd-card">
+      <div class="label">首次使用或登录过期时，打开浏览器手动登录小红书</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome login -p xhs</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">发布单篇帖子</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome publish -p xhs \
+  --post ".auto-so-me/campaigns/&lt;batch&gt;/xhs-output/&lt;post-name&gt;"</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">批量发布整个批次（自动间隔 3-8 分钟）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome publish -p xhs \
+  --dir ".auto-so-me/campaigns/&lt;batch&gt;/xhs-output"</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">预览模式（仅解析，不打开浏览器）</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome publish -p xhs \
+  --dir "&lt;path&gt;" --dry-run</pre>
+    </div>
+    <div class="cmd-card">
+      <div class="label">调试：截图并分析发布页面元素结构</div>
+      <button class="copy-btn" onclick="copyCmd(this)">复制</button>
+      <pre>python -m autosome inspect -p xhs -o ./debug</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Angle / Scene System ===================== -->
+<section id="angles">
+  <h2>内容角度 / 子场景体系</h2>
+
+  <h3 style="color:var(--orange)">product-gtm：6 种内容角度</h3>
+  <p class="desc-text">Agent 从 6 种标准角度中为每篇文案选取切入点，自动去重，角度池耗尽后切换受众视角。小红书与公众号均支持同一套角度体系。</p>
+  <table class="angle-table">
+    <thead>
+      <tr><th>角度</th><th>名称</th><th>内容结构</th><th>示例 Hook</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="angle-id" style="background:var(--red);color:#fff">pain-point</span></td>
+        <td>痛点切入</td>
+        <td>痛点共鸣 &rarr; 解决方案 &rarr; 产品介绍 &rarr; CTA</td>
+        <td style="color:var(--text-muted)">"写 PRD 写到崩溃的产品经理，看过来"</td>
+      </tr>
+      <tr>
+        <td><span class="angle-id" style="background:var(--green);color:#000">scenario</span></td>
+        <td>场景展示</td>
+        <td>场景描述 &rarr; 使用过程 &rarr; 前后对比 &rarr; CTA</td>
+        <td style="color:var(--text-muted)">"今天用 AI 帮我做了一整个版本的需求"</td>
+      </tr>
+      <tr>
+        <td><span class="angle-id" style="background:var(--accent);color:#fff">comparison</span></td>
+        <td>对比测评</td>
+        <td>传统痛点 &rarr; 新方案 &rarr; 效率对比 &rarr; CTA</td>
+        <td style="color:var(--text-muted)">"手写 PRD vs AI 写 PRD，效率差了 10 倍"</td>
+      </tr>
+      <tr>
+        <td><span class="angle-id" style="background:var(--yellow);color:#000">tutorial</span></td>
+        <td>教程干货</td>
+        <td>步骤拆解 &rarr; 操作演示 &rarr; 要点总结 &rarr; CTA</td>
+        <td style="color:var(--text-muted)">"保姆级教程：用 Cursor 搭建 AI 产品经理"</td>
+      </tr>
+      <tr>
+        <td><span class="angle-id" style="background:var(--purple);color:#fff">showcase</span></td>
+        <td>成果展示</td>
+        <td>成果展示 &rarr; 制作过程 &rarr; 产品揭秘 &rarr; CTA</td>
+        <td style="color:var(--text-muted)">"这份交互原型 3 分钟就生成了"</td>
+      </tr>
+      <tr>
+        <td><span class="angle-id" style="background:var(--orange);color:#fff">story</span></td>
+        <td>个人故事</td>
+        <td>背景 &rarr; 遇到问题 &rarr; 尝试方案 &rarr; 成果</td>
+        <td style="color:var(--text-muted)">"一个 PM 如何用 AI 把效率翻了 3 倍"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:var(--pink)">personal-log：4 种子场景</h3>
+  <p class="desc-text">日志素材按子场景归类，同一批次尽量不重复，新批次自动避免短期内消费同一素材。</p>
+  <table class="angle-table">
+    <thead>
+      <tr><th>子场景</th><th>名称</th><th>内容倾向</th><th>封面风格</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="angle-id" style="background:var(--accent);color:#fff">growth</span></td>
+        <td>成长</td>
+        <td>学习、习惯、职业思考、复盘</td>
+        <td style="color:var(--text-muted)">文字卡片式，蓝绿渐变</td>
+      </tr>
+      <tr>
+        <td><span class="angle-id" style="background:var(--orange);color:#fff">travel</span></td>
+        <td>游玩出行</td>
+        <td>行程体验、城市印象、轻量化攻略</td>
+        <td style="color:var(--text-muted)">风景意境式，暖色/自然色</td>
+      </tr>
+      <tr>
+        <td><span class="angle-id" style="background:var(--purple);color:#fff">reflection</span></td>
+        <td>日常思考</td>
+        <td>观点、情绪、价值观侧写</td>
+        <td style="color:var(--text-muted)">极简文字式，莫兰迪色</td>
+      </tr>
+      <tr>
+        <td><span class="angle-id" style="background:var(--yellow);color:#000">life</span></td>
+        <td>其它生活</td>
+        <td>未归入上类的可分享日常</td>
+        <td style="color:var(--text-muted)">生活感插画式，奶油色/暖黄</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== Project Structure ===================== -->
+<section id="structure">
+  <h2>项目结构</h2>
+
+  <h3>源码结构</h3>
+  <div class="tree-box" style="margin-bottom:20px">
+    <pre>
+<span class="hl">AutoSoMe/</span>
+├── <span class="hl">SKILL.md</span>                               <span class="cm"># Cursor Skill 入口（双模式）</span>
+├── <span class="hl">prompts/</span>                               <span class="cm"># Prompt 指令文件（10 个）</span>
+│   ├── product-understanding.md           <span class="cm"># product-gtm F1</span>
+│   ├── content-strategy.md                <span class="cm"># product-gtm F2</span>
+│   ├── xiaohongshu-copywriting.md         <span class="cm"># product-gtm F3 小红书</span>
+│   ├── <span class="hl-new">wechat-mp-copywriting.md</span>           <span class="cm"># product-gtm F3-MP 公众号</span>
+│   ├── personal-log-understanding.md      <span class="cm"># personal-log F1</span>
+│   ├── personal-log-strategy.md           <span class="cm"># personal-log F2</span>
+│   ├── personal-log-copywriting.md        <span class="cm"># personal-log F3 小红书</span>
+│   ├── <span class="hl-new">personal-log-mp-copywriting.md</span>    <span class="cm"># personal-log F3-MP 公众号</span>
+│   ├── desensitization-gate.md            <span class="cm"># personal-log F5 脱敏闸门</span>
+│   ├── cover-image.md                     <span class="cm"># F4 封面图（双模式共用）</span>
+│   ├── <span class="hl-new">browser-publish-xhs.md</span>            <span class="cm"># MCP 小红书发布指令</span>
+│   └── <span class="hl-new">browser-publish-mp.md</span>             <span class="cm"># MCP 公众号发布指令</span>
+├── <span class="hl-new">.cursor/</span>
+│   └── <span class="hl-new">mcp.json</span>                           <span class="cm"># Chrome DevTools MCP 配置</span>
+├── <span class="hl">examples/</span>                              <span class="cm"># Few-shot 示例</span>
+│   ├── sample-product-profile.md
+│   └── sample-post.md
+├── <span class="hl">autosome/</span>                              <span class="cm"># Python CLI</span>
+│   ├── __main__.py
+│   ├── cli.py                             <span class="cm"># 命令定义（7 个子命令）</span>
+│   ├── config.py                          <span class="cm"># 配置加载</span>
+│   ├── parser.py                          <span class="cm"># content.md 解析</span>
+│   ├── tracker.py                         <span class="cm"># 历史追踪（双模式）</span>
+│   └── platforms/
+│       ├── __init__.py                    <span class="cm"># 公共工具（剪贴板等）</span>
+│       ├── xiaohongshu.py                 <span class="cm"># 小红书 Playwright legacy</span>
+│       └── wechat_mp.py                   <span class="cm"># 公众号 prepare 辅助</span>
+├── config.example.yaml
+├── requirements.txt
+├── dashboard.html                         <span class="cm"># 本页面</span>
+└── README.md</pre>
+  </div>
+
+  <h3>生成内容结构</h3>
+  <div class="tree-grid">
+    <div class="tree-box">
+      <h3 style="color:var(--orange)">product-gtm</h3>
+      <pre>
+<span class="hl">&lt;产品项目根&gt;/</span>
+└── <span class="hl">.auto-so-me/</span>
+    ├── <span class="hl">product-profile.md</span>    <span class="cm"># F1 产品理解报告</span>
+    ├── <span class="hl">history.json</span>          <span class="cm"># F6 历史追踪</span>
+    └── <span class="hl">campaigns/</span>
+        └── YYYY-MM-DD-batch-N/
+            ├── strategy.md       <span class="cm"># 内容策略大纲</span>
+            ├── <span class="hl">xhs-output/</span>     <span class="cm"># 小红书文案</span>
+            │   ├── post-1-pain-point/
+            │   │   ├── content.md
+            │   │   └── cover.png
+            │   └── post-2-tutorial/
+            │       ├── content.md
+            │       └── cover.png
+            └── <span class="hl-new">mp-output/</span>      <span class="cm"># 公众号文案</span>
+                ├── post-1-pain-point/
+                │   ├── content.md
+                │   └── cover.png
+                └── post-2-tutorial/
+                    ├── content.md
+                    └── cover.png</pre>
+    </div>
+    <div class="tree-box">
+      <h3 style="color:var(--pink)">personal-log</h3>
+      <pre>
+<span class="hl">&lt;personal_output_root&gt;/</span>
+├── <span class="hl">config.local.md</span>         <span class="cm"># 路径配置</span>
+├── <span class="hl">personal-profile.md</span>     <span class="cm"># F1 叙事档案</span>
+├── <span class="hl">history-personal.json</span>   <span class="cm"># F7 个人向历史</span>
+└── <span class="hl">campaigns/</span>
+    └── YYYY-MM-DD-batch-N/
+        ├── strategy.md         <span class="cm"># 选题大纲</span>
+        ├── desensitization-    <span class="cm"># F5 脱敏</span>
+        │   checklist.md        <span class="cm"># 检查表</span>
+        ├── <span class="hl">xhs-output/</span>
+        │   ├── post-1-growth/
+        │   │   ├── content.md
+        │   │   └── cover.png
+        │   └── post-2-travel/
+        │       ├── content.md
+        │       └── cover.png
+        └── <span class="hl-new">mp-output/</span>
+            ├── post-1-growth/
+            │   ├── content.md
+            │   └── cover.png
+            └── post-2-travel/
+                ├── content.md
+                └── cover.png</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Platforms ===================== -->
+<section id="platforms">
+  <h2>平台支持</h2>
+  <div class="plat-grid">
+    <div class="plat-card" style="border-color:var(--green)">
+      <div class="emoji">&#128214;</div>
+      <div class="name">小红书</div>
+      <div class="status" style="color:var(--green)">&#9679; 已支持</div>
+      <div class="methods">
+        ✅ Skill 生成（XHS 文案）<br>
+        ✅ prepare 手动发布<br>
+        ✅ Chrome DevTools MCP 自动发布<br>
+        ⚠️ Playwright legacy
+      </div>
+    </div>
+    <div class="plat-card" style="border-color:var(--teal)">
+      <div class="emoji">&#128172;</div>
+      <div class="name">微信公众号</div>
+      <div class="status" style="color:var(--teal)">&#9679; 已支持</div>
+      <div class="methods">
+        ✅ Skill 生成（MP 长文）<br>
+        ✅ prepare 手动发布<br>
+        ✅ Chrome DevTools MCP 自动发布<br>
+        ✅ 跨平台搬运（XHS → MP）
+      </div>
+    </div>
+    <div class="plat-card">
+      <div class="emoji">&#9654;&#65039;</div>
+      <div class="name">YouTube</div>
+      <div class="status" style="color:var(--text-muted)">&#9675; 计划中</div>
+      <div class="methods" style="margin-top:8px">—</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'dark',
+  themeVariables: {
+    primaryColor: '#2a2e3a',
+    primaryTextColor: '#e4e6ed',
+    primaryBorderColor: '#6c8cff',
+    lineColor: '#6c8cff',
+    secondaryColor: '#1a1d27',
+    tertiaryColor: '#222633',
+    fontFamily: '-apple-system, PingFang SC, sans-serif',
+    fontSize: '14px'
+  },
+  flowchart: { curve: 'basis', padding: 16 }
+});
+
+function copyCmd(btn) {
+  const pre = btn.parentElement.querySelector('pre');
+  const text = pre.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '已复制';
+    setTimeout(() => { btn.textContent = '复制'; }, 1500);
+  });
+}
+
+const navLinks = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+# AutoSoMe 配置文件
+# 复制为 config.yaml 并按需修改
+
+# 数据目录（存放浏览器登录状态等）
+data_dir: ~/.autosome
+
+# 平台配置
+platforms:
+  xhs:
+    browser_data_dir: ~/.autosome/browser_data/xhs
+  mp:
+    browser_data_dir: ~/.autosome/browser_data/mp

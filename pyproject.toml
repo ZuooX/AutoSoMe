@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "autosome"
+version = "0.1.0"
+description = "Product GTM marketing agent — generate Xiaohongshu content and publish via browser automation"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "playwright>=1.40",
+    "click>=8.1",
+    "python-frontmatter>=1.0",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+autosome = "autosome.cli:cli"
+
+[tool.setuptools.packages.find]
+include = ["autosome*"]
