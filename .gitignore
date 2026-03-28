@@ -15,8 +15,12 @@ env/
 # IDE
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
+
+# Local utility scripts (personal, not part of the tool)
+scripts/
 
 # OS
 .DS_Store
